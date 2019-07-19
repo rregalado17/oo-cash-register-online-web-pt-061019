@@ -5,13 +5,14 @@ class CashRegister
     @total = 0 
     @discount = discount
     @items = []
+    @last_transaction = []
   end
   
   def add_item(title, price, quantity = 1)
     @total += (price * quantity)
       quantity.times do @items << title
     end 
-    @last_transaction = (price * quantity)
+    @last_transaction << [price, quantity]
   end
   
   def apply_discount
@@ -25,7 +26,12 @@ class CashRegister
 end 
   
   def void_last_transaction
-    @total -= @last_transaction
+    last = @last_transaction.pop
+    @total -= last[0] * last[1] 
+    last[1].times do @items.pop
+  end
+    
+    
   end
   
 end
